@@ -1,0 +1,64 @@
+import random , pygame , math , time
+
+pygame.init()
+screen = pygame.display.set_mode((800,600))
+
+class circle():
+    def __init__(self):
+        self.r = random.randint(10,20)
+        self.x = random.randint(0+self.r,800-self.r)
+        self.y = random.randint(0+self.r,600-self.r)
+
+    def draw(self):
+        pygame.draw.circle(screen,(255,255,255),(self.x,self.y),self.r)
+
+
+n = 10
+c = []
+i = 0
+drawcircle = True
+while len(c) < n :
+    if i == 0:
+        c.append(str(i))
+        c[i] = circle()
+        c[i].draw()
+        i+=1
+        pygame.display.update()
+    if drawcircle == True:
+        c.append(str(i))
+    c[i] = circle()
+    drawcircle = True
+    for j in range(len(c)):
+        if i != j:
+            disp = math.hypot( c[j].x - c[i].x , c[j].y - c[i].y )
+            if disp < ( c[j].r + c[i].r ):
+                drawcircle = False
+    if drawcircle == True:
+        c[i].draw()
+        pygame.display.update()
+        i += 1
+delete = False    
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+        x,y = pygame.mouse.get_pos()
+        time.sleep(0.5)
+        for i in range(len(c)):
+            rad = math.hypot(abs(x-c[i].x),abs(y-c[i].y))
+            if rad < c[i].r:
+                d = i
+                delete = True
+                for j in range(len(c)):
+                    if i != j:
+                        if c[i].r < c[j].r :
+                            delete = False
+
+        if delete == True:
+            del c[d]
+            screen.fill((0,0,0))
+            for k in range(len(c)):
+                c[k].draw()
+            pygame.display.update()
