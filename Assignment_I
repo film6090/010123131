@@ -3,6 +3,12 @@ import random , pygame , math , time
 pygame.init()
 screen = pygame.display.set_mode((800,600))
 
+n = 10
+c = []
+i = 0
+delete = False 
+drawcircle = True
+
 class circle():
     def __init__(self):
         self.r = random.randint(10,20)
@@ -12,11 +18,6 @@ class circle():
     def draw(self):
         pygame.draw.circle(screen,(255,255,255),(self.x,self.y),self.r)
 
-
-n = 10
-c = []
-i = 0
-drawcircle = True
 while len(c) < n :
     if i == 0:
         c.append(str(i))
@@ -37,7 +38,7 @@ while len(c) < n :
         c[i].draw()
         pygame.display.update()
         i += 1
-delete = False    
+   
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -55,7 +56,6 @@ while True:
                     if i != j:
                         if c[i].r < c[j].r :
                             delete = False
-
         if delete == True:
             del c[d]
             screen.fill((0,0,0))
