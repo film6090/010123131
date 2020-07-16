@@ -110,10 +110,13 @@ while True:
             if i != j:
                 det = math.hypot(abs(c[j].x-c[i].x),abs(c[j].y-c[i].y))
                 if det <= c[i].r+c[j].r:
-                    c[i].vx = (-1)*random.randint(0,5)
-                    c[i].vy = (-1)*random.randint(0,5)
-                    c[j].vx = (-1)*random.randint(0,5)
-                    c[j].vy = (-1)*random.randint(0,5)
+                    c[i].vx = (-1)*c[i].vx
+                    c[i].vy = (-1)*c[i].vy
+                    c[j].vx = (-1)*c[j].vx
+                    c[j].vy = (-1)*c[j].vy
                 
-                     
-
+                    #v2-------------------------------------
+                    #c[i].vx = (-1)*random.randint(-5,5)
+                    #c[i].vy = (-1)*random.randint(0,5)
+                    #c[j].vx = (-1)*random.randint(0,5)
+                    #c[j].vy = (-1)*random.randint(0,5)
