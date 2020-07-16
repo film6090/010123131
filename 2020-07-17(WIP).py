@@ -1,19 +1,22 @@
 #assignment_II
 #Student ID:6201012610036
+
+
 import random , pygame , math , time
 
 width = 800
 hight = 600
-pygame.init()
 circlecolor=(255,255,255)
 background=(0,0,0)
-screen = pygame.display.set_mode((width,hight))
 
-n = 5
+n = 5 #having blinking circle problem when having multiple circle
 c = []
 i = 0
 delete = False 
 drawcircle = True
+
+pygame.init()
+screen = pygame.display.set_mode((width,hight))
 
 #create circle class to keep track of every circle position
 class circle():
@@ -27,22 +30,24 @@ class circle():
     #draw a new circle 
     def draw(self):
         pygame.draw.circle(screen,circlecolor,(self.x,self.y),self.r)
-
+    
+    #moving positionof circle
     def updateposition(self):
         self.x = int(self.x+self.vx)
         self.y = int(self.y+self.vy)
-
+    
+    #checking the border impact
     def borderimpaccheck(self):
         if self.x-self.r <= 0 or self.x + self.r >= width:
             self.vx = (-1)*self.vx
-            if self.x < 0:
+            if self.x < 0: #line 43 - 46 using if circle getting bug out of the screen
                 self.x = 1
-            elif self.x > width:
+            elif self.x > width: 
                 self.x = width - 1
 
         if self.y-self.r <= 0 or self.y + self.r >= hight:
             self.vy = (-1)*self.vy
-            if self.y < 0:
+            if self.y < 0: #the same as line 43-46
                 self.y = 1
             elif self.y > width:
                 self.y = width - 1
@@ -60,7 +65,7 @@ while len(c) < n :
         c.append(str(i))
     c[i] = circle()
     drawcircle = True
-    #check for colision
+    #check for colision while creating new circle
     for j in range(len(c)):
         if i != j:
             disp = math.hypot( c[j].x - c[i].x , c[j].y - c[i].y )
@@ -98,7 +103,8 @@ while True:
             for k in range(len(c)):
                 c[k].draw()
                 pygame.display.update()
-
+    
+    #border colision check
     for i in range(len(c)):
         screen.fill(background)
         for k in range(len(c)):
@@ -106,10 +112,14 @@ while True:
             pygame.display.update()
         c[i].updateposition()
         c[i].borderimpaccheck()
+        
+        #colision between circle check
         for j in range(len(c)):
             if i != j:
                 det = math.hypot(abs(c[j].x-c[i].x),abs(c[j].y-c[i].y))
                 if det <= c[i].r+c[j].r:
+                    #after colision react for circle 
+                    #v1-------------------------------------
                     c[i].vx = (-1)*c[i].vx
                     c[i].vy = (-1)*c[i].vy
                     c[j].vx = (-1)*c[j].vx
