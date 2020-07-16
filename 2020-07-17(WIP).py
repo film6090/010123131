@@ -6,10 +6,13 @@ import random , pygame , math , time
 
 width = 800
 hight = 600
+circlespeed = 5 
 circlecolor=(255,255,255)
 background=(0,0,0)
 
 n = 5 #having blinking circle problem when having multiple circle
+minrad = 10
+maxrad = 20
 c = []
 i = 0
 delete = False 
@@ -21,11 +24,11 @@ screen = pygame.display.set_mode((width,hight))
 #create circle class to keep track of every circle position
 class circle():
     def __init__(self):
-        self.r = random.randint(10,20)
+        self.r = random.randint(minrad,maxrad)
         self.x = random.randint(0+self.r,width-self.r)
         self.y = random.randint(0+self.r,hight-self.r)
-        self.vx = random.randint(-5,5)
-        self.vy = random.randint(-5,5)
+        self.vx = random.randint((-1)*circlespeed,circlespeed)
+        self.vy = random.randint((-1)*circlespeed,circlespeed)
 
     #draw a new circle 
     def draw(self):
@@ -126,7 +129,7 @@ while True:
                     c[j].vy = (-1)*c[j].vy
                 
                     #v2-------------------------------------
-                    #c[i].vx = (-1)*random.randint(-5,5)
-                    #c[i].vy = (-1)*random.randint(0,5)
-                    #c[j].vx = (-1)*random.randint(0,5)
-                    #c[j].vy = (-1)*random.randint(0,5)
+                    #c[i].vx = random.randint((-1)*circlespeed,circlespeed)
+                    #c[i].vy = random.randint((-1)*circlespeed,circlespeed)
+                    #c[j].vx = random.randint((-1)*circlespeed,circlespeed)
+                    #c[j].vy = random.randint((-1)*circlespeed,circlespeed)
