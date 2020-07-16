@@ -1,5 +1,8 @@
 #assignment_II
 #Student ID:6201012610036
+
+#Note still work in progress maybe recoding to get it work normally 
+
 import random , pygame , math , time
 
 width = 800
