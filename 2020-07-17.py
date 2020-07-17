@@ -9,7 +9,7 @@ circlespeed = 5
 circlecolor=(255,255,255)
 background=(0,0,0)
 
-n = 10 #having blinking circle problem when having multiple circle
+n = 10
 minrad = 10
 maxrad = 20
 c = []
