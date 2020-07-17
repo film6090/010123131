@@ -124,7 +124,7 @@ while True:
                     c[i].vx *= (-1)
                     c[i].vy *= (-1)
                 
-                    #v2-------------------------------------
+                    #v2 more random but can stick to other circle for a short time
                     #c[i].vx = random.randint((-1)*circlespeed,circlespeed)
                     #c[i].vy = random.randint((-1)*circlespeed,circlespeed)
 
