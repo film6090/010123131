@@ -1,0 +1,49 @@
+import threading
+import pygame
+
+N = 4 #number of thread useing to draw
+scr_w, scr_h = 1600,900 
+scale = 0.01-scr_h/120000 #up or down scale of manderbrot depending on height
+
+list_semaphores = [ threading.Semaphore(0) for i in range(N) ]
+list_threads = []
+
+pygame.init()
+screen = pygame.display.set_mode( (scr_w, scr_h) )
+surface = pygame.Surface( screen.get_size(), pygame.SRCALPHA )
+
+
+def mandelbrot(c,max_iters=100):
+    i = 0
+    z = complex(0,0)
+    while abs(z) <= 2 and i < max_iters:
+        z = z*z + c
+        i += 1 
+    return i
+
+
+color,r,g,b = 0,0,0,0
+def thread_func(start,surface):
+    for x in range(int(scr_w/N)):
+        for y in range(int(scr_h)):
+            color = mandelbrot(complex(scale*(start+x-scr_w/2) -0.55 ,scale*(y-scr_h/2) ), 63)
+            r = (color << 6) & 0xc0
+            g = (color << 4) & 0xc0
+            b = (color << 2) & 0xc0
+            surface.set_at( (start+x, y), (255-r,255-g,255-b) )
+        screen.blit( surface, (0,0) )
+        pygame.display.update()
+    
+for i in range(N):
+    t = threading.Thread(target=thread_func, args=(int(i*scr_w/N),surface))
+    list_threads.append( t )
+
+for t in list_threads:
+    t.start()
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+pygame.quit()
