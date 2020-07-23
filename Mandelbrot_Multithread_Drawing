@@ -1,7 +1,7 @@
 import threading
 import pygame
 
-N = 4 #number of thread useing to draw
+N = 10 #number of thread useing to draw
 scr_w, scr_h = 1600,900 
 scale = 0.01-scr_h/120000 #up or down scale of manderbrot depending on height
 
