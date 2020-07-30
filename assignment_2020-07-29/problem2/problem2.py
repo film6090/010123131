@@ -1,4 +1,4 @@
-import pygame , random , threading
+import pygame , random
 
 def changebg(M_pos,N_pos,color=(0,0,0)):
     for i in range(h):
@@ -21,8 +21,6 @@ def swap(M_pos,N_pos,M_target,N_target):
 
 
 
-#-----------------------------------------------------------------------------------------------------------
-
 M,N = 10,10
 scr_w , scr_h = 500 , 500
 pygame.init()
@@ -36,12 +34,8 @@ w = scr_w//M
 h = scr_h//N
 pygame.display.update()
 pic = [i for i in range(M*N)]
-print(pic[50])
-#for r in range(N):
-#    for c in range(M):
-#        changebg(c,r,(random.randint(0,255),random.randint(0,255),random.randint(0,255)))
 
-#-----------------------------------------------------------------------------------------------------------
+
 
 drag = False
 running = True
