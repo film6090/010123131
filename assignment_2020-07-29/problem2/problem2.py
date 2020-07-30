@@ -1,5 +1,5 @@
 import pygame , random
-#I didn't have acess to any web camera. So the code below only work for normal image background.
+#I didn't have acess to any web camera. So the code below only work for normal background image.
 #------------------------------------------------------------------------------------------
 #function
 def swap(M_pos,N_pos,M_target,N_target):
