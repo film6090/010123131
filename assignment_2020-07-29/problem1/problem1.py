@@ -24,7 +24,7 @@ M,N = 5,5
 scr_w , scr_h = 500,500
 pygame.init()
 screen = pygame.display.set_mode( (scr_w, scr_h) )
-bg = pygame.image.load(r"image_path").convert() #Ex. C:\user\user\desktop\image.jpg
+bg = pygame.image.load(r"image_path").convert() #Ex. pygame.image.load(r"C:\user\user\desktop\image.jpg").convert
 scr_w , scr_h = bg.get_width() , bg.get_height()
 screen = pygame.display.set_mode( (scr_w, scr_h) )
 surface = pygame.Surface( screen.get_size(), pygame.SRCALPHA )
