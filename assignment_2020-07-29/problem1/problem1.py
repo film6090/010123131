@@ -1,5 +1,5 @@
 import pygame
-#I didn't have acess to any web camera. So the code below only work for nor mal image.
+#I didn't have acess to any web camera. So the code below only work for normal background image.
 #-----------------------------------------------------------
 #function
 def changebg(M_pos,N_pos,color=(0,0,0)):
