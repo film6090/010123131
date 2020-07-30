@@ -1,24 +1,18 @@
 import pygame , random
 
-def changebg(M_pos,N_pos,color=(0,0,0)):
-    for i in range(h):
-        for j in range(w):
-            surface.set_at((M_pos*w+j,N_pos*h+i),color)
-    screen.blit(surface,(0,0))
-    pygame.display.update()
-
-
+#------------------------------------------------------------------------------------------
+#function
 def swap(M_pos,N_pos,M_target,N_target):
-    p1=pic[M_pos+M*N_pos]
-    p2=pic[M_target+M*N_target]
-    pic[M_pos+M*N_pos]=p2
-    pic[M_target+M*N_target]=p1
-    screen.blit(bg,((p1%M)*w,(p1//N)*h),((p2%M)*w,(p2//N)*h,w,h))
-    screen.blit(bg,((p2%M)*w,(p2//N)*h),((p1%M)*w,(p1//N)*h,w,h))
+    p1=pic[M_pos][N_pos]
+    p2=pic[M_target][N_target]
+    pic[M_pos][N_pos]=p2
+    pic[M_target][N_target]=p1
+    screen.blit(bg,(M_pos*w,N_pos*h),((p2//M)*w,(p2%M)*h,w,h))
+    screen.blit(bg,(M_target*w,N_target*h),((p1//M)*w,(p1%M)*h,w,h))
     pygame.display.update()
 
-
-
+#------------------------------------------------------------------------------------------
+#setup
 M,N = 10,10
 scr_w , scr_h = 500 , 500
 pygame.init()
@@ -31,9 +25,9 @@ screen.blit(bg,(0,0))
 w = scr_w//M
 h = scr_h//N
 pygame.display.update()
-pic = [i for i in range(M*N)]
+pic = [[i+(j*M) for i in range(M)]for j in range(N)]
 
-
+#------------------------------------------------------------------------------------------
 
 drag = False
 running = True
