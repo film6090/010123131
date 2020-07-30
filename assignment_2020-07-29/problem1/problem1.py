@@ -16,7 +16,6 @@ def blank():
                 return False
     return True
 
-#-----------------------------------------------------------------------------------------------------------
 
 M,N = 5,5
 
@@ -33,13 +32,6 @@ w = scr_w//M
 h = scr_h//N
 fill = [ [ False for i in range(M) ] for j in range(N) ]
 
-#---------- use in case no image ---------------------------------------------------------------------------
-
-#for r in range(N):
-    #for c in range(M):
-        #changebg(c,r,(random.randint(0,255),random.randint(0,255),random.randint(0,255)))
-
-#-----------------------------------------------------------------------------------------------------------
 
 for i in range(M):
     for j in range(scr_w):
