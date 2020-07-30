@@ -13,8 +13,6 @@ def swap(M_pos,N_pos,M_target,N_target):
     p2=pic[M_target+M*N_target]
     pic[M_pos+M*N_pos]=p2
     pic[M_target+M*N_target]=p1
-    print(p1,p2)
-    print(pic[p1],pic[p2])
     screen.blit(bg,((p1%M)*w,(p1//N)*h),((p2%M)*w,(p2//N)*h,w,h))
     screen.blit(bg,((p2%M)*w,(p2//N)*h),((p1%M)*w,(p1//N)*h,w,h))
     pygame.display.update()
