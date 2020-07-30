@@ -1,5 +1,7 @@
-import pygame , random
+import pygame
 
+#-----------------------------------------------------------
+#function
 def changebg(M_pos,N_pos,color=(0,0,0)):
     for i in range(h):
         for j in range(w):
@@ -15,15 +17,14 @@ def blank():
             if fill[j][i] == False:
                 return False
     return True
-
+#--------------------------------------------------------------------------
+#setup
 
 M,N = 5,5
-
 scr_w , scr_h = 500,500
-
 pygame.init()
 screen = pygame.display.set_mode( (scr_w, scr_h) )
-bg = pygame.image.load(r"image_path").convert()
+bg = pygame.image.load(r"image_path").convert() #Ex. C:\user\user\desktop\image.jpg
 scr_w , scr_h = bg.get_width() , bg.get_height()
 screen = pygame.display.set_mode( (scr_w, scr_h) )
 surface = pygame.Surface( screen.get_size(), pygame.SRCALPHA )
@@ -32,7 +33,8 @@ w = scr_w//M
 h = scr_h//N
 fill = [ [ False for i in range(M) ] for j in range(N) ]
 
-
+#------------------------------------------------------------------------------
+#draw green line between each section
 for i in range(M):
     for j in range(scr_w):
         surface.set_at((j,i*h),(0,255,0))
@@ -50,6 +52,7 @@ for i in range(scr_w):
 screen.blit(surface,(0,0))
 pygame.display.update()
 
+#--------------------------------------------------------------------------------
 finish = False
 running = True
 while running == True:
