@@ -1,5 +1,7 @@
 import pygame , random , pygame.camera
 
+#this version add screen on screen refresh
+
 def changebg(M_pos,N_pos,color=(0,0,0)):
     for i in range(h):
         for j in range(w):
