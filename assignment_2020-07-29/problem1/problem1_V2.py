@@ -45,7 +45,7 @@ M,N = 5,5
 scr_w , scr_h = 1280,720
 pygame.init()
 screen = pygame.display.set_mode( (scr_w, scr_h) )
-bg = pygame.image.load(r"c:\Users\Firn_Film\Desktop\film\.vscode\image.jpg").convert()
+bg = pygame.image.load(r"image_path").convert()
 scr_w , scr_h = bg.get_width() , bg.get_height()
 screen = pygame.display.set_mode( (scr_w, scr_h) )
 surface = pygame.Surface( screen.get_size(), pygame.SRCALPHA )
