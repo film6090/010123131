@@ -45,9 +45,6 @@ while running == True:
     r+=1
     #img = camera.get_image()
     #if img != none:
-    if r%100 == 1:
-        screen.fill((0,0,0))
-        pygame.display.update()
     if (r//1000)%2 == 0:
         for i in range(N):
             for j in range(M):
@@ -76,3 +73,5 @@ while running == True:
             drag = False
     if r == 10000:
         r = 0    
+        screen.fill((0,0,0))
+        pygame.display.update()
