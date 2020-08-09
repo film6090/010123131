@@ -162,7 +162,16 @@ while running == True:
                     eq = bracket(eq)
                 if any( x in eq for x in operator):
                     if eq[0] != '-':
-                        ans = calculate(eq)
+                        if '+' in eq:
+                            pos = eq.find('+')
+                            eq = eq[pos+1:] + eq[:pos]
+                            ans = calculate(eq)
+                        elif 'x' in eq:
+                            ans = '-' + calculate[1:]
+                        elif  '/' in eq:
+                            ans = '-' + calculate[1:]
+                        else:
+                            ans = calculate(eq)
                     else:
                         ans = eq
                 else:
@@ -190,3 +199,4 @@ while running == True:
             else:
                 equation += str(layout[r][c])
                 screen.blit(font.render(equation,True,(0,0,0)),(10,10))
+
