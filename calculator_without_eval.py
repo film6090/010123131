@@ -13,67 +13,106 @@ def count(eq_str,start,last):
             return start+i
 
 def mathfunction(eq_str):
-    pos = eq_str.find('sqrt')
-    if pos != (-1):    
-        c = count(eq_str,pos,len(eq_str))
-        if any( x in eq_str[pos:c] for x in angle) or 'sqrt' in eq_str[pos:c]: 
+    for t in power:
+        pos = eq_str.find(t)
+        if pos != (-1):
+            c = count(eq_str,pos,len(eq_str))
+            break
+            
+    if eq_str[pos:pos+4] == 'sqrt':
+        if any( x in eq_str[pos+5:c] for x in angle) or any( x in eq_str[pos+5:c] for x in power ): 
             return eq_str[:pos]+str(math.sqrt(float(calculate(mathfunction(eq_str[pos+5:c])))))+eq_str[c+1:]
         
-        elif any( x in eq_str[pos:c] for x in bracket):
+        elif '(' in eq_str[pos+5:c]:
             return eq_str[:pos]+str(math.sqrt(float(calculate(bracket(eq_str[pos+5:c])))))+eq_str[c+1:]
         
-        elif any( x in eq_str[pos:c] for x in operator):
+        elif any( x in eq_str[pos+5:c] for x in operator):
             return eq_str[:pos]+str(math.sqrt(float(calculate(eq_str[pos+5:c]))))+eq_str[c+1:]
-        
+
         else:
             return eq_str[:pos]+str(math.sqrt(float(eq_str[pos+5:c])))+eq_str[c+1:]
-    
+
+    elif eq_str[pos] == '^':
+        op = -1
+        for t in operator:
+            nop = eq_str[:pos].rfind(t)
+            if nop != (-1):
+                if nop > op:
+                    op = nop
+        c = count(eq_str,pos,len(eq_str))
+        if op != (-1):
+            if any( x in eq_str[pos+2:c] for x in angle) or any( x in eq_str[pos+2:c] for x in power ): 
+                return eq_str[:op]+str(float(eq_str[op+1:pos])**float(mathfunction(eq_str[pos+2:c])))+eq_str[c+1:]
+        
+            elif '(' in eq_str[pos+2:c]:
+                return eq_str[:op]+str(float(eq_str[op+1:pos])**float(calculate(bracket(eq_str[pos+2:c]))))+eq_str[c+1:]
+        
+            elif any( x in eq_str[pos+2:c] for x in operator):
+                return eq_str[:op]+str(float(eq_str[op+1:pos])**float(calculate(eq_str[pos+2:c])))+eq_str[c+1:]
+
+            else:
+                return eq_str[:op]+str(float(eq_str[op+1:pos])**float(eq_str[pos+2:c]))+eq_str[c+1:]
+                    
+        else:
+            if any( x in eq_str[pos+2:c] for x in angle) or any( x in eq_str[pos+2:c] for x in power ): 
+                return str(float(eq_str[:pos])**float(mathfunction(eq_str[pos+2:c])))+eq_str[c+1:]
+        
+            elif '(' in eq_str[pos+2:c]:
+                return str(float(eq_str[:pos])**float(calculate(bracket(eq_str[pos+2:c]))))+eq_str[c+1:]
+        
+            elif any( x in eq_str[pos+2:c] for x in operator):
+                return str(float(eq_str[:pos])**float(calculate(eq_str[pos+2:c])))+eq_str[c+1:]
+
+            else:
+                return str(float(eq_str[:pos])**float(eq_str[pos+2:c]))+eq_str[c+1:]
+
+
     for t in angle:
         pos = eq_str.find(t)
         if pos != (-1):
+            c = count(eq_str,pos,len(eq_str))
             break
+            
+            if eq_str[pos:pos+3] == 'sin':
+                if any( x in eq_str[pos+4:c] for x in angle) or any( x in eq_str[pos+4:c] for x in power):
+                    return eq_str[:pos]+str(math.sin(math.radians(float(calculate(mathfunction(eq_str[pos+4:c]))))))+eq_str[c+1:]
     
-    c = count(eq_str,pos,len(eq_str))
-    if eq_str[pos:pos+3] == 'sin':
-        if any( x in eq_str[pos:c] for x in angle) or 'sqrt' in eq_str[pos:c]:
-            return eq_str[:pos]+str(math.sin(math.radians(float(calculate(mathfunction(eq_str[pos+4:c]))))))+eq_str[c+1:]
+                elif '(' in eq_str[pos+4:c]:
+                    return eq_str[:pos]+str(math.sin(math.radians(float(calculate(bracket(eq_str[pos+4:c]))))))+eq_str[c+1:]
     
-        elif any( x in eq_str[pos:c] for x in bracket):
-            return eq_str[:pos]+str(math.sin(math.radians(float(calculate(bracket(eq_str[pos+4:c]))))))+eq_str[c+1:]
+                elif any( x in eq_str[pos+4:c] for x in operator):
+                    return eq_str[:pos]+str(math.sin(math.radians(float(calculate(eq_str[pos+4:c])))))+eq_str[c+1:]
     
-        elif any( x in eq_str[pos:c] for x in operator):
-            return eq_str[:pos]+str(math.sin(math.radians(float(calculate(eq_str[pos+4:c])))))+eq_str[c+1:]
-    
-        else:
-            return eq_str[:pos]+str(math.sin(math.radians(float(eq_str[pos+4:c]))))+eq_str[c+1:]
+                else:
+                    return eq_str[:pos]+str(math.sin(math.radians(float(eq_str[pos+4:c]))))+eq_str[c+1:]
 
 
-    elif eq_str[pos:pos+3] == 'cos':
-        if any( x in eq_str[pos:c] for x in angle) or 'sqrt' in eq_str[pos:c]: 
-            return eq_str[:pos]+str(math.cos(math.radians(float(calculate(mathfunction(eq_str[pos+4:c]))))))+eq_str[c+1:]
+            elif eq_str[pos:pos+3] == 'cos':
+                if any( x in eq_str[pos+4:c] for x in angle) or any( x in eq_str[pos+4:c] for x in power): 
+                    return eq_str[:pos]+str(math.cos(math.radians(float(calculate(mathfunction(eq_str[pos+4:c]))))))+eq_str[c+1:]
         
-        elif any( x in eq_str[pos:c] for x in bracket):
-            return eq_str[:pos]+str(math.cos(math.radians(float(calculate(bracket(eq_str[pos+4:c]))))))+eq_str[c+1:]
+                elif '(' in eq_str[pos+4:c]:
+                    return eq_str[:pos]+str(math.cos(math.radians(float(calculate(bracket(eq_str[pos+4:c]))))))+eq_str[c+1:]
         
-        elif any( x in eq_str[pos:c] for x in operator):
-            return eq_str[:pos]+str(math.cos(math.radians(float(calculate(eq_str[pos+4:c])))))+eq_str[c+1:]
+                elif any( x in eq_str[pos+4:c] for x in operator):
+                    return eq_str[:pos]+str(math.cos(math.radians(float(calculate(eq_str[pos+4:c])))))+eq_str[c+1:]
         
-        else:
-            return eq_str[:pos]+str(math.cos(math.radians(float(eq_str[pos+4:c]))))+eq_str[c+1:]
+                else:
+                    return eq_str[:pos]+str(math.cos(math.radians(float(eq_str[pos+4:c]))))+eq_str[c+1:]
 
 
-    elif eq_str[pos:pos+3] == 'tan':
-        if any( x in eq_str[pos:c] for x in angle) or 'sqrt' in eq_str[pos:c]: 
-            return eq_str[:pos]+str(math.tan(math.radians(float(calculate(mathfunction(eq_str[pos+4:c]))))))+eq_str[c+1:]
+            elif eq_str[pos:pos+3] == 'tan':
+                if any( x in eq_str[pos+4:c] for x in angle) or any(x in eq_str[pos+4:c] for x in power): 
+                    return eq_str[:pos]+str(math.tan(math.radians(float(calculate(mathfunction(eq_str[pos+4:c]))))))+eq_str[c+1:]
         
-        elif any( x in eq_str[pos:c] for x in bracket):
-            return eq_str[:pos]+str(math.tan(math.radians(float(calculate(bracket(eq_str[pos+4:c]))))))+eq_str[c+1:]
+                elif '(' in eq_str[pos+4:c]:
+                    return eq_str[:pos]+str(math.tan(math.radians(float(calculate(bracket(eq_str[pos+4:c]))))))+eq_str[c+1:]
         
-        elif any( x in eq_str[pos:c] for x in operator):
-            return eq_str[:pos]+str(math.tan(math.radians(float(calculate(eq_str[pos+4:c])))))+eq_str[c+1:]
+                elif any( x in eq_str[pos+4:c] for x in operator):
+                    return eq_str[:pos]+str(math.tan(math.radians(float(calculate(eq_str[pos+4:c])))))+eq_str[c+1:]
         
-        else:
-            return eq_str[:pos]+str(math.tan(math.radians(float(eq_str[pos+4:c]))))+eq_str[c+1:]
+                else:
+                    return eq_str[:pos]+str(math.tan(math.radians(float(eq_str[pos+4:c]))))+eq_str[c+1:]
     else:
         return eq_str
 
@@ -94,13 +133,14 @@ def bracket(eq_str):
 def calculate(eq_str):
     if any( x in eq_str for x in angle):
         return calculate(mathfunction(eq_str))
+    
     for t in operator:
         pos = eq_str.find(t)
         if pos != (-1):
             break
     if eq_str[pos] == '+':
         return float(calculate(eq_str[:pos])) + float(calculate(eq_str[pos+1:]))
-
+    
     elif eq_str[pos] == '-':
         return float(calculate(eq_str[:pos])) - float(calculate(eq_str[pos+1:]))
 
@@ -109,6 +149,7 @@ def calculate(eq_str):
 
     elif eq_str[pos] == '/':
         return  float(calculate(eq_str[:pos])) / float(calculate(eq_str[pos+1:]))
+    
     else:
         return eq_str
 
@@ -118,7 +159,7 @@ operator = ['+','-','x','/']
 angle = ['sin','cos','tan']
 power = ['sqrt', '^']
 layout =    (('','','','',''),
-            ('sin('  ,'cos('  ,'tan('  ,'sqrt(' ,''),
+            ('sin('  ,'cos('  ,'tan('  ,'sqrt(' ,'x^n'),
             ('7'    ,'8'    ,'9'    ,'delete'   ,'clear'),
             ('4'    ,'5'    ,'6'    ,'x'    ,'/'),
             ('1'    ,'2'    ,'3'    ,'+'    ,'-'),
@@ -156,12 +197,12 @@ while running == True:
             c , r = x//w , y//h
             eq = equation
             if layout[r][c] == '=':
-                while any( x in eq for x in angle)  or 'sqrt' in eq:
+                while (any( x in eq for x in angle) or any( x in eq for x in power)):
                     eq = mathfunction(eq)
                 while '(' in eq == True:
                     eq = bracket(eq)
                 if any( x in eq for x in operator):
-                    if eq[0] != '-':
+                    if eq[0] == '-':
                         if '+' in eq:
                             pos = eq.find('+')
                             eq = eq[pos+1:] + eq[:pos]
@@ -170,10 +211,9 @@ while running == True:
                             ans = '-' + calculate[1:]
                         elif  '/' in eq:
                             ans = '-' + calculate[1:]
-                        else:
-                            ans = calculate(eq)
                     else:
-                        ans = eq
+                        ans = calculate(eq)
+                    
                 else:
                     ans = eq
                 screen.blit(font.render(str(ans),True,(0,0,0)),(scr_w-17*len(str(ans))-10,90))
@@ -181,6 +221,10 @@ while running == True:
             elif layout[r][c] == 'delete':
                 if any(x in equation[-4:] for x in angle):
                     equation = equation[:-4]
+                elif equation[-2:] == '^(':
+                    equation = equation[:-2]
+                elif equation[-5:] == 'sqrt(':
+                    equation = equation[:-5]
                 else:
                     equation = equation[:-1]
 
@@ -199,4 +243,3 @@ while running == True:
             else:
                 equation += str(layout[r][c])
                 screen.blit(font.render(equation,True,(0,0,0)),(10,10))
-
