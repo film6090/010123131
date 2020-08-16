@@ -1,3 +1,4 @@
+op = ['&','+']
 def pretree(string):
     rout = []
     out = []
