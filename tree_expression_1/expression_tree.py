@@ -1,5 +1,5 @@
 import pygame
-from boolean import pretree
+from prefix import pretree
 
 op = ['&','+']
 f = open(r'path_to_text.txt','r')
