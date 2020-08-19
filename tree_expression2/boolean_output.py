@@ -1,4 +1,4 @@
-f = open(r'c:\Users\Firn_Film\Desktop\film\.vscode\text.txt','r')
+f = open(r'path_to_text.txt','r')
 t = f.readlines()
 for i in range(len(t)):
     if i != len(t)-1:
