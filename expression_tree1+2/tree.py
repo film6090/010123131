@@ -2,7 +2,7 @@ import pygame
 from function import pretree,print_out
 
 op = ['&','+']
-f = open(r'root_to_text.txt','r')
+f = open(r'path_to_text.txt','r')
 t = f.readlines()
 for i in range(len(t)):
     if i != len(t)-1:
