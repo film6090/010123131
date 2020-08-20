@@ -1,7 +1,7 @@
 import pygame
 from my_function_v2 import prefix_str,print_output
 op = ['&','+']
-f = open(r'c:\Users\Firn_Film\Desktop\film\.vscode\text.txt','r')
+f = open(r'path_to_text.txt','r')
 text_list = f.readlines()
 for i in range(len(text_list)):
     if i != len(text_list)-1:
