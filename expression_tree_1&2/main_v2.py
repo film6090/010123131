@@ -12,10 +12,12 @@ for i in range(len(text_list)):
 
         
 def draw(input_list,position,half,height=0,list_index=0,scenario=0):
-    global start
-    pygame.display.update()
     operator = ['+','&']
+    global start
+    
     h = scr_h//5
+    pygame.display.update()
+    
     if height != 0 and scenario == 0:
         pygame.draw.line(screen,(100,100,100),(position,h*height+50),(position-2*half+20,h*(height-1)+50),10)
     
@@ -53,6 +55,7 @@ screen.fill((255,255,255))
 
 y = prefix_str(text_list[i])
 print_output(text_list,i)
+i+=1
 
 draw(y,scr_w//2,scr_w//4)
 screen.blit(font.render(text_list[i],True,(200,100,150)),(20,25))
@@ -63,26 +66,28 @@ pygame.display.update()
 
 running = True
 
-while running == True:
 
+while running == True:
     for event in pygame.event.get():
-    
         if event.type == pygame.QUIT:
             running = False
         
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if len(text_list)-1 != i:
-                start = 0
-                i+=1
                 y = prefix_str(text_list[i])
+                i+=1
+                
                 screen.fill((255,255,255))
+                
                 draw(y,scr_w//2,scr_w//4)
                 screen.blit(font.render(text_list[i],True,(200,100,150)),(20,25))
                 screen.blit(font.render('click to go to next expression',True,(200,100,150)),(scr_w-400,25))
                 pygame.display.update()
+                
                 print_output(text_list,i)
-            
+                
             else:
+                
                 running = False
 
 pygame.quit()
