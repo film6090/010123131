@@ -1,5 +1,5 @@
 import pygame
-from boolean import prefix_str,print_output,calculate_expression
+from my_function_v2 import prefix_str,print_output
 op = ['&','+']
 f = open(r'c:\Users\Firn_Film\Desktop\film\.vscode\text.txt','r')
 text_list = f.readlines()
@@ -33,7 +33,6 @@ def draw(input_list,position,half,height=0,list_index=0,scenario=0):
         pygame.draw.circle(screen,(100,100,100),(position,h*height+50),30)
         screen.blit(font.render(input_list[list_index],True,(0,255,100)),(position-10,h*height+38))
         start = list_index
-
 
 start = 0
 pygame.init()
