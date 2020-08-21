@@ -15,7 +15,7 @@ def draw(input_list,position,half,height=0,list_index=0,scenario=0):
     operator = ['+','&']
     global start
     
-    h = scr_h//5
+    h = scr_h//6
     pygame.display.update()
     
     if height != 0 and scenario == 0:
