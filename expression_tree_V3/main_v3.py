@@ -1,6 +1,9 @@
-import pygame
+import pygame , sys
 from my_function_v3 import prefix_str,print_output,calculate_expression
-f = open(r'c:\Users\Firn_Film\Desktop\New Folder\text_for_v3.txt','r')
+
+path = sys.path[0]
+file_name = 'text_for_v3.txt'
+f = open( path + '\\' + file_name , 'r' )
 text_list = f.readlines()
 for i in range(len(text_list)):
     if i != len(text_list)-1:
