@@ -189,11 +189,22 @@ def prefix_str(string):
     stack = []
     counter = 0
     inverse = False
+    and_check = False
+    
     print(string)
     
     for i in range(len(string)):
+        if string[i] == '(':
+            and_check = False
+            
         if string[i] == ')':
-            reverse_output.append(stack.pop())
+            if stack != []:
+                reverse_output.append(stack.pop())
+            
+            if c == 2:
+                if stack != []:
+                    reverse_output.append(stack.pop())
+            
             counter = 0
         
         elif string[i] == '!':
@@ -211,6 +222,16 @@ def prefix_str(string):
         
         elif any( op in string[i] for op in operator):
             stack.append(string[i])
+            
+            if string[i] == '&':
+                and_check = True
+                
+                if count != 0:
+                    count -= 1
+            
+            if c == 2:
+                reverse_output.append(stack.pop())
+                count = 0
         
         elif string[i] == '|' or string[i] == 'I':
             if inverse != True:
@@ -223,7 +244,14 @@ def prefix_str(string):
             
             else:
                 inverse = False
-        
+            
+            if and_check == True:
+                if stack != []:
+                    reverse_output.append(stack.pop())
+                    c = 0
+            
+                and_check = Fales
+                
         elif (any( num in string[i] for num in number) and string[i-1] != '|') and (any( num in string[i] for num in number) and string[i-1] != 'I'):
             reverse_output.append(string[i])
     
