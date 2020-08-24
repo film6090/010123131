@@ -1,5 +1,5 @@
 import pygame , sys
-from class_function import function
+from with_class_function import function
 
 path = sys.path[0]
 text_name = 'text_for_v3.txt'
