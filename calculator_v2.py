@@ -13,7 +13,7 @@ background_color = (255,255,255)
 line_color = (200,200,200)
 scr_w , scr_h = 500 , 700
 refresh_rate = 10
-image_name = 'Cyberdimension_Mobile_Wallpaper_1080x1920_02.jpg'
+image_name = 'image.jpg'
 caption = 'calculator'
 layout =[['Display'],
         ['Ans'],
@@ -227,8 +227,6 @@ while running == True:
                             if key == 'f12':
                                 mode = False
 
-                    
-                        
             
             if bg_image == None:
                 screen.fill(background_color)
