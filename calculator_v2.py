@@ -13,7 +13,8 @@ background_color = (255,255,255)
 line_color = (200,200,200)
 scr_w , scr_h = 500 , 700
 refresh_rate = 10
-image_name = 'image.jpg'
+image_name = 'bg_image'
+button_name = 'bt_image'
 caption = 'calculator'
 layout =[['Display'],
         ['Ans'],
@@ -49,9 +50,17 @@ F12 == History Log
 
 path = sys.path[0]
 try:
-    bg_image = pygame.image.load(path+'\\'+image_name)
+    background_image = pygame.image.load(path+'\\'+image_name)
 except:
-    bg_image = None
+    background_image = None
+
+try:
+    button_image =pygame.image.load(path+'\\'+button_name)
+except:
+    button_image = None
+
+
+background_image = pygame.transform.scale(background_image,(scr_w,scr_h))
 
 
 Ans_pos = [i for i in range(len(layout)) if layout[i] == ['Ans']]
@@ -67,10 +76,16 @@ def draw():
                 for j in range(len(layout[i])):
                     height = (scr_h//len(layout))
                     width = (scr_w//len(layout[i]))
-                    screen.blit(font.render(layout[i][j],True,charactor_color), (10+j*width,50+i*height))
-                    pygame.draw.line(screen,line_color,(j*width,i*height) , ((j)*width,(i+1)*height) ,line_thickness)
-                    pygame.draw.line(screen,line_color,(j*width,i*height) , ((j+1)*width,(i)*height) ,line_thickness)
-
+                    if button_image != None:
+                        button_heigth = scr_h//len(layout)
+                        button_width = scr_w//len(layout[i])
+                        b_image = pygame.transform.scale(button_image,(button_width,button_heigth))
+                        screen.blit(b_image,(j*height,i*width))
+                    else:
+                        pygame.draw.line(screen,line_color,(j*width,i*height) , ((j+1)*width,(i)*height) ,line_thickness)
+                        pygame.draw.line(screen,line_color,(j*width,i*height) , ((j)*width,(i+1)*height) ,line_thickness)
+                    screen.blit(font.render(layout[i][j],True,charactor_color), (10+j*width,50+i*height)) 
+                        
 
 class calculator:
     def __init__(self):
@@ -128,11 +143,10 @@ pygame.display.set_caption(caption)
 font = pygame.font.SysFont(front,front_size)
 screen = pygame.display.set_mode( (scr_w, scr_h) )
 h = scr_h // len(layout)
-if bg_image == None:
+if background_image == None:
     screen.fill(background_color)
 else:
-    bg_image = pygame.transform.scale(bg_image,(scr_w,scr_h))
-    screen.blit(bg_image,(0,0))
+    screen.blit(background_image,(0,0))
 draw()
 pygame.display.update()
 clock = pygame.time.Clock()
@@ -210,7 +224,7 @@ while running == True:
                 blit = True
                 while mode:
                     if blit:
-                        screen.blit(bg_image,(0,0))
+                        screen.blit(background_image,(0,0))
                         screen.blit(font.render('History Log',True,charactor_color),(10,30))
                         for i in range(6):
                             try:
@@ -227,11 +241,13 @@ while running == True:
                             if key == 'f12':
                                 mode = False
 
+                    
+                        
             
-            if bg_image == None:
+            if background_image == None:
                 screen.fill(background_color)
             else:
-                screen.blit(bg_image,(0,0))
+                screen.blit(background_image,(0,0))
 
             draw()
             screen.blit(font.render(cal.eq,True,charactor_color),(10,30+h*Dis_pos))
@@ -260,10 +276,10 @@ while running == True:
             elif layout[r][c] != 'Display' and layout[r][c] != 'Ans':
                 cal.add(str(layout[r][c]))
         
-            if bg_image == None:
+            if background_image == None:
                 screen.fill(background_color)
             else:
-                screen.blit(bg_image,(0,0))
+                screen.blit(background_image,(0,0))
 
             draw()
             screen.blit(font.render(cal.eq,True,charactor_color),(10,30+h*Dis_pos))
