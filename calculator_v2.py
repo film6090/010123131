@@ -1,4 +1,4 @@
-import sys , pygame
+import sys , os , pygame , datetime
 from math import cos, sin, sqrt, tan
 
 
@@ -13,8 +13,8 @@ background_color = (255,255,255)
 line_color = (200,200,200)
 scr_w , scr_h = 500 , 700
 refresh_rate = 10
-image_name = 'bg_image'
-button_name = 'bt_image'
+background_image_name = None
+button_name = None
 caption = 'calculator'
 layout =[['Display'],
         ['Ans'],
@@ -25,6 +25,7 @@ layout =[['Display'],
         ['.'     ,'0'    ,'('    ,')'     ,'=']]
 
 #-----------------------------------------------------------------------------
+
 """
 key mapping
 
@@ -42,34 +43,41 @@ F5 == x^(n)
 
 ##sin,cos and tan using Radian
 
+F11 == Stop/Play Music
 F12 == History Log
 
+to adding music create music folder in the same path to this file
+
+Ex. E:\\some_path\\calculator_v2.py
+    E:\\some_path\\music
+
 """
+
 #------------------------------------------------------------------------------
 
-
+#get path to current directory
 path = sys.path[0]
+
+#get background and button image if given
 try:
-    background_image = pygame.image.load(path+'\\'+image_name)
+    background_image = pygame.image.load(path+'\\'+background_image_name)
+    background_image = pygame.transform.scale(background_image,(scr_w,scr_h))
 except:
     background_image = None
 
 try:
-    button_image =pygame.image.load(path+'\\'+button_name)
+    button_image = pygame.image.load(path+'\\'+button_name)
 except:
     button_image = None
 
-
-background_image = pygame.transform.scale(background_image,(scr_w,scr_h))
-
-
+#get answer and display position from layout
 Ans_pos = [i for i in range(len(layout)) if layout[i] == ['Ans']]
 Ans_pos = Ans_pos[0]
 Dis_pos = [i for i in range(len(layout)) if layout[i] == ['Display']]
 Dis_pos = Dis_pos[0]
 
-
 def draw():
+    #draw the lay out
     for i in range(len(layout)):
         if layout[i] != ['Display']:
             if layout[i] != ['Ans']:            
@@ -85,17 +93,29 @@ def draw():
                         pygame.draw.line(screen,line_color,(j*width,i*height) , ((j+1)*width,(i)*height) ,line_thickness)
                         pygame.draw.line(screen,line_color,(j*width,i*height) , ((j)*width,(i+1)*height) ,line_thickness)
                     screen.blit(font.render(layout[i][j],True,charactor_color), (10+j*width,50+i*height)) 
-                        
 
+def stop_play_music():
+    #stop or play music
+    global status
+    if music_list != []:
+        if status:
+            pygame.mixer.music.pause()
+            status = False
+        else:
+            pygame.mixer.music.unpause()
+            status = True
+                        
 class calculator:
     def __init__(self):
         self.eq = ''
         self.ans = ''
         self.history = []
 
+    #adding the charactor to the string
     def add(self,char):
         self.eq +=char
         
+    #get the answer if possible
     def get_ans(self):
         temp = self.eq
         while 'x' in temp:
@@ -110,6 +130,7 @@ class calculator:
         except:
             self.ans = 'SyntaxError'
     
+    #remove the last charator form the string
     def delete(self):
         try:
             if self.eq[-4:] == 'sin(' or self.eq[-4:] == 'cos(' or self.eq[-4:] == 'tan(':
@@ -127,42 +148,78 @@ class calculator:
         self.eq = ''
         self.ans = ''
 
+    #adding the string and answer to history log
     def add_history(self):
         try:
             if self.history[-1][0] != self.eq and self.history[-1][1] != self.ans:
                 self.history.append([self.eq,self.ans])
         except:
             self.history.append([self.eq,self.ans])
-        if len(self.history) >= 10:
-            self.history = self.history[-10:]
+        if len(self.history) >= 6:
+            self.history = self.history[-6:]
 
 
 
 pygame.init()
+pygame.mixer.init()
 pygame.display.set_caption(caption)
+
+
+music_path = path+'\\music'
+try:
+    music_list = os.listdir(music_path)
+except:
+    music_list = []
+if music_list != []:
+    status = True
+    current_music = 0
+    SONG_END = pygame.USEREVENT + 1
+    pygame.mixer.music.set_endevent(SONG_END)
+    pygame.mixer.music.load(music_path+'\\'+music_list[current_music])
+    pygame.mixer.music.play()
+
 font = pygame.font.SysFont(front,front_size)
-screen = pygame.display.set_mode( (scr_w, scr_h) )
+screen = pygame.display.set_mode( (scr_w, scr_h+30) )
 h = scr_h // len(layout)
-if background_image == None:
-    screen.fill(background_color)
-else:
-    screen.blit(background_image,(0,0))
-draw()
-pygame.display.update()
 clock = pygame.time.Clock()
 cal = calculator()
 
 
 running = True
-while running == True:
+while running:
+    
     clock.tick(refresh_rate)
+    date = str(datetime.date.today())
+    time = datetime.datetime.now().strftime('%H:%M:%S')
+    screen.fill(background_color)
+    if background_image != None:
+        screen.blit(background_image,(0,0))
+    screen.blit(font.render(date,True,charactor_color),(10,scr_h+1))
+    screen.blit(font.render(time,True,charactor_color),(scr_w-17*len(time)-10,scr_h+1))
+    screen.blit(font.render(cal.eq,True,charactor_color),(10,30+h*Dis_pos))
+    screen.blit(font.render(str(cal.ans),True,charactor_color),(scr_w-17*len(str(cal.ans))-10,30+h*Ans_pos))
+    draw()
+
+    pygame.display.update()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
+            quit
+
+        if music_list != []:
+            #if the song end play the next one in music folder
+            if event.type == SONG_END:
+                if len(music_list) != current_music:
+                    current_music += 1
+                else:
+                    current_music = 0
+                pygame.mixer.music.load(music_path+'\\'+music_list[current_music])
+                pygame.mixer.music.play()
 
         if event.type == pygame.KEYDOWN:
+            #check the pressing key 
             key = pygame.key.name(event.key)
             if key == '0' or key == '[0]':
                 cal.add('0')
@@ -219,42 +276,37 @@ while running == True:
                 cal.add('sqrt(')
             elif key == 'f5':
                 cal.add('^(')
+            elif key == 'f11':
+                stop_play_music()
             elif key == 'f12':
-                mode = True
-                blit = True
-                while mode:
-                    if blit:
-                        screen.blit(background_image,(0,0))
-                        screen.blit(font.render('History Log',True,charactor_color),(10,30))
-                        for i in range(6):
-                            try:
-                                screen.blit(font.render(str(cal.history[i][0]),True,charactor_color),(10,h//2+30+2*h//2*i))
-                                screen.blit(font.render(str(cal.history[i][1]),True,charactor_color),(10,h//2+30+h//2*(1+2*i)))
-                                pygame.display.update()
-                            except:
-                                pass
-                        blit = False
+                if len(cal.history) != 0:
+                    mode = True
+                    blit = True
+                    while mode:
+                        if blit:
+                            screen.blit(background_image,(0,0))
+                            screen.blit(font.render('History Log',True,charactor_color),(10,30))
+                            for i in range(6):
+                                try:
+                                    screen.blit(font.render(str(cal.history[i][0]),True,charactor_color),(10,h//2+30+2*h//2*i))
+                                    screen.blit(font.render(str(cal.history[i][1]),True,charactor_color),(10,h//2+30+h//2*(1+2*i)))
+                                    pygame.display.update()
+                                except:
+                                    pass
+                            blit = False
 
-                    for event in pygame.event.get():
-                        if event.type == pygame.KEYDOWN:
-                            key = pygame.key.name(event.key)
-                            if key == 'f12':
-                                mode = False
-
-                    
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                running = False
+                                pygame.quit()
+                                quit
+                            if event.type == pygame.KEYDOWN:
+                                key = pygame.key.name(event.key)
+                                if key == 'f12':
+                                    mode = False
                         
-            
-            if background_image == None:
-                screen.fill(background_color)
-            else:
-                screen.blit(background_image,(0,0))
-
-            draw()
-            screen.blit(font.render(cal.eq,True,charactor_color),(10,30+h*Dis_pos))
-            screen.blit(font.render(str(cal.ans),True,charactor_color),(scr_w-17*len(str(cal.ans))-10,30+h*Ans_pos))
-            pygame.display.update()
-
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            #check the button 
             x , y = pygame.mouse.get_pos()       
             r = y//(scr_h//len(layout))
             c = x//(scr_w//len(layout[r])) 
@@ -276,12 +328,4 @@ while running == True:
             elif layout[r][c] != 'Display' and layout[r][c] != 'Ans':
                 cal.add(str(layout[r][c]))
         
-            if background_image == None:
-                screen.fill(background_color)
-            else:
-                screen.blit(background_image,(0,0))
 
-            draw()
-            screen.blit(font.render(cal.eq,True,charactor_color),(10,30+h*Dis_pos))
-            screen.blit(font.render(str(cal.ans),True,charactor_color),(scr_w-17*len(str(cal.ans))-10,30+h*Ans_pos))
-            pygame.display.update()
