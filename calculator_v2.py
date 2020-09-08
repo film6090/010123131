@@ -20,7 +20,7 @@ layout =[['Display'],
         ['Ans'],
         ['sin('  ,'cos('  ,'tan('  ,'sqrt(' ,'x^n'],
         ['7'    ,'8'    ,'9'    ,'delete'   ,'clear'],
-        ['4'    ,'5'    ,'6'    ,'x'    ,'/'],
+        [ '4'    ,'5'    ,'6'    ,'x'    ,'/'],
         ['1'    ,'2'    ,'3'    ,'+'    ,'-'],
         ['.'     ,'0'    ,'('    ,')'     ,'=']]
 
@@ -284,7 +284,9 @@ while running:
                     blit = True
                     while mode:
                         if blit:
-                            screen.blit(background_image,(0,0))
+                            screen.fill(background_color)
+                            if background_image != None:
+                                screen.blit(background_image,(0,0))
                             screen.blit(font.render('History Log',True,charactor_color),(10,30))
                             for i in range(6):
                                 try:
